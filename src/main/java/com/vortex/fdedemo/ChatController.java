@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-public class SummarizeController {
+public class ChatController {
 
     @Autowired
-    private SummarizeService summarizeService;
+    private ChatService chatService;
 
     @PostMapping("/chat")
     public String chat(@RequestBody String message) {
-        return summarizeService.chat(message);
+        return chatService.chat(message);
     }
 }
