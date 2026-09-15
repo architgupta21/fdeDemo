@@ -1,6 +1,8 @@
 package com.vortex.fdedemo;
 
 import com.vortex.fdedemo.aitools.CalculatorTool;
+import com.vortex.fdedemo.aitools.CurrencyExchangeTool;
+import com.vortex.fdedemo.aitools.WeatherTool;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
@@ -14,8 +16,9 @@ import java.util.List;
 public class ChatService {
 
     private final ChatClient chatClient;
-
     private final CalculatorTool calculatorTool;
+    private WeatherTool weatherTool;
+    private CurrencyExchangeTool currencyExchangeTool;
 
     private List<Message> history = new ArrayList<>();
 
@@ -23,12 +26,22 @@ public class ChatService {
                 You are a helpful AI assistant with access to external tools.
                 Follow these instructions:
                 1. For arithmetic calculations always use the calculator tool.
-                2. After receiving tool results, explain the answer naturally.
+                2. For current weather, always use Weather Tool.
+                3. For currency conversion, always use currency exchange tool.
+                4. Always use calculator tool for arithmetic calculations.
+                5. You can use multiple tools when solving a multi step request.
+                6. After receiving tool results, explain the answer naturally.
+                7. Never invent current weather or exchange rate information.
                 """;
 
-    public ChatService(ChatClient.Builder builder, CalculatorTool calculatorTool) {
+    public ChatService(ChatClient.Builder builder,
+                       CalculatorTool calculatorTool,
+                       WeatherTool weatherTool,
+                       CurrencyExchangeTool currencyExchangeTool) {
         this.calculatorTool = calculatorTool;
+        this.weatherTool = weatherTool;
         this.chatClient = builder.build();
+        this.currencyExchangeTool = currencyExchangeTool;
     }
 
     public String chat(String message) {
@@ -38,7 +51,7 @@ public class ChatService {
         String output = chatClient.prompt()
                 .system(SYSTEM_PROMPT)
                 .messages(history)
-                .tools(calculatorTool)
+                .tools(calculatorTool, weatherTool, currencyExchangeTool)
                 .call()
                 .content();
 
