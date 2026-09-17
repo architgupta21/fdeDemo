@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.vortex</groupId>
-    <artifactId>fdeDemo</artifactId>
+    <artifactId>spring-ai-playground</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>fdeDemo</name>
-    <description>fdeDemo</description>
+    <name>spring-ai-playground</name>
+    <description>Spring AI Playground and Integration Sandbox</description>
     <url/>
     <licenses>
         <license/>
