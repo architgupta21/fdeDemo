@@ -1,13 +1,11 @@
 package com.vortex.springaiplayground;
 
-import com.vortex.springaiplayground.aitools.CalculatorTool;
-import com.vortex.springaiplayground.aitools.CurrencyExchangeTool;
-import com.vortex.springaiplayground.aitools.WeatherTool;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,47 +14,31 @@ import java.util.List;
 public class ChatService {
 
     private final ChatClient chatClient;
-    private final CalculatorTool calculatorTool;
-    private WeatherTool weatherTool;
-    private CurrencyExchangeTool currencyExchangeTool;
 
-    private List<Message> history = new ArrayList<>();
+    private final List<Message> history = new ArrayList<>();
 
     private final String SYSTEM_PROMPT = """
-                You are a helpful AI assistant with access to external tools.
-                Follow these instructions:
-                1. For arithmetic calculations always use the calculator tool.
-                2. For current weather, always use Weather Tool.
-                3. For currency conversion, always use currency exchange tool.
-                4. Always use calculator tool for arithmetic calculations.
-                5. You can use multiple tools when solving a multi step request.
-                6. After receiving tool results, explain the answer naturally.
-                7. Never invent current weather or exchange rate information.
+                You are a professional chatbot, answer to all queries of the users in professional way.
                 """;
 
-    public ChatService(ChatClient.Builder builder,
-                       CalculatorTool calculatorTool,
-                       WeatherTool weatherTool,
-                       CurrencyExchangeTool currencyExchangeTool) {
-        this.calculatorTool = calculatorTool;
-        this.weatherTool = weatherTool;
+    public ChatService(ChatClient.Builder builder) {
         this.chatClient = builder.build();
-        this.currencyExchangeTool = currencyExchangeTool;
     }
 
-    public String chat(String message) {
+    public Flux<String> chat(String message) {
 
         history.add(new UserMessage(message));
 
-        String output = chatClient.prompt()
+        StringBuilder fullResponse = new StringBuilder();
+
+        Flux<String> response = chatClient.prompt()
                 .system(SYSTEM_PROMPT)
                 .messages(history)
-                .tools(calculatorTool, weatherTool, currencyExchangeTool)
-                .call()
-                .content();
+                .stream()
+                .content()
+                .doOnNext(fullResponse::append)
+                .doOnComplete(() -> history.add(new AssistantMessage(fullResponse.toString())));
 
-        history.add(new AssistantMessage(output));
-
-        return output;
+        return response;
     }
 }
