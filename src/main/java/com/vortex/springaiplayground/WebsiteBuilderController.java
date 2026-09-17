@@ -1,4 +1,4 @@
-package com.vortex.fdedemo;
+package com.vortex.springaiplayground;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

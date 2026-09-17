@@ -1,13 +1,13 @@
-package com.vortex.fdedemo;
+package com.vortex.springaiplayground;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FdeDemoApplication {
+public class SpringAiPlaygroundApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FdeDemoApplication.class, args);
+        SpringApplication.run(SpringAiPlaygroundApplication.class, args);
     }
 
 }

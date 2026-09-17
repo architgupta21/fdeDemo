@@ -1,8 +1,8 @@
-package com.vortex.fdedemo;
+package com.vortex.springaiplayground;
 
-import com.vortex.fdedemo.aitools.CalculatorTool;
-import com.vortex.fdedemo.aitools.CurrencyExchangeTool;
-import com.vortex.fdedemo.aitools.WeatherTool;
+import com.vortex.springaiplayground.aitools.CalculatorTool;
+import com.vortex.springaiplayground.aitools.CurrencyExchangeTool;
+import com.vortex.springaiplayground.aitools.WeatherTool;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;

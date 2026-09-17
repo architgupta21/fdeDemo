@@ -1,6 +1,6 @@
-package com.vortex.fdedemo;
+package com.vortex.springaiplayground;
 
-import com.vortex.fdedemo.aitools.WebsiteTools;
+import com.vortex.springaiplayground.aitools.WebsiteTools;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;

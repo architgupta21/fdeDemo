@@ -1,4 +1,4 @@
-package com.vortex.fdedemo.aitools;
+package com.vortex.springaiplayground.aitools;
 
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
